@@ -16,6 +16,7 @@ const path = require('path');
 
 const authRoutes = require('./routes/auth');
 const saucesRoutes = require('./routes/sauces');
+const Sauce = require('./models/sauce')
 
 const app = express();
 
@@ -32,8 +33,22 @@ app.use(express.static('images'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/sauces', saucesRoutes);
+app.use('/api/auth', authRoutes)
+// app.use('/api/sauces/:id', (req, res, next) => {
+//     Sauce.findOne({ _id: req.params.id })
+//         .then(sauce => {
+//             if (!sauce) {
+//                 return res.status(404).json({ error: "Sauce inconnue !!" })
+//             }
+//             res.status(200).json(sauce)
+//         })
+//         .catch(error => {
+//             console.log(error)
+//             res.status(404).json({ error })
+//         })
+// })
+app.use('/api/sauces', saucesRoutes)
+
 
 
 module.exports = app
