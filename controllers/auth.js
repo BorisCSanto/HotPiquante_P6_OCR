@@ -1,18 +1,5 @@
-const MongoClient = require('mongoose');
 const User = require('../models/user')
-const url = 'mongodb://localhost:27017/hotpiquante';
 const bcrypt = require('bcrypt')
-
-MongoClient.connect(url,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => {
-        console.log('Connexion à MongoDB réussie !')
-    })
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
-
 const token = require('jsonwebtoken')
 
 
