@@ -10,7 +10,7 @@ Arréter le serveur mongodb:
 
 sudo systemctl stop mongod
 
-A l'installation lancer:
+A l'installation ajouter un dowwier "images" pour stoker les images, puis lancer:
 npm install
 
 Pour lancer le serveur node:
