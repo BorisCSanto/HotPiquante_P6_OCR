@@ -92,3 +92,55 @@ exports.deleteSauce = (req, res, next) => {
         .then(() => res.status(201).json({ message: 'Sauce effacée !' }))
         .catch(error => res.status(400).json({ error }))
 }
+
+exports.likeSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id })
+        .then(sauce => {
+            const l = req.body.like
+            const user = req.body.userId
+            switch (l) {
+                case 1:
+                    console.log("cas 1")
+                    if (!sauce.usersLiked.find(us => us == user)) {
+                        console.log("user ok")
+                        sauce.likes++
+                        sauce.usersLiked.push(user)
+                    }
+                    break
+                case -1:
+                    console.log("cas -1")
+                    if (!sauce.usersDisliked.find(us => us == user)) {
+                        console.log("user ok")
+                        sauce.dislikes++
+                        sauce.usersDisliked.push(user)
+                    }
+                    break
+                case 0:
+                    console.log("cas 0")
+                    let index = sauce.usersLiked.findIndex(us => us == user)
+                    if (index != -1) {
+                        console.log("cas like")
+                        console.log(index)
+                        sauce.usersLiked.splice(index, 1)
+                        sauce.likes--
+                    }
+                    else {
+                        index = sauce.usersDisliked.findIndex(us => us == user)
+                        console.log("cas dislike")
+                        console.log(index)
+                        sauce.usersDisliked.splice(index, 1)
+                        sauce.dislikes--
+                    }
+                    break
+                default:
+                    console.log("probleme")
+            }
+            sauce.save()
+                .then(() => res.status(200).json({ message: "ok" }))
+                .catch(error => res.status(400).json({ error }))
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(404).json({ error })
+        })
+}
